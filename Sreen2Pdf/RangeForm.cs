@@ -16,6 +16,7 @@ namespace Sreen2Pdf
 		private Point startpoint = new Point();
 		private Point endpoint = new Point();
 		private Graphics bkgGraphics = null;
+		private Bitmap srcBmp = null;
 		public RangeForm()
 		{
 			InitializeComponent();
@@ -28,6 +29,7 @@ namespace Sreen2Pdf
 			bkgGraphics = Graphics.FromImage(bmp);
 			bkgGraphics.CopyFromScreen(new Point(0, 0), new Point(0, 0), Screen.AllScreens[0].Bounds.Size);
 			ImgRgbToGray(bmp);
+			srcBmp = bmp;
 			bkgGraphics.DrawRectangle(new Pen(Color.Red,2), new Rectangle(0, 0, 500, 500));
 			
 			BackgroundImage = bmp;
@@ -87,6 +89,11 @@ namespace Sreen2Pdf
 			this.rect_play(ref rect);
 			//DrawRectangle(new Pen(Color.Black), rect);
 			//gform.DrawImage(this.bmsave, new Point(0, 0));
+
+			var bmp = (Bitmap)srcBmp.Clone();
+			var g = Graphics.FromImage(bmp);
+			g.DrawRectangle(new Pen(Color.Red, 2), new Rectangle(0, 0, 500, 500));
+			BackgroundImage = bmp;
 		}
 
 		private void rect_play(ref Rectangle rect)
