@@ -24,7 +24,7 @@ namespace Sreen2Pdf
 
 		private void RangeForm_Load(object sender, EventArgs e)
 		{
-			var bmp = new Bitmap(Screen.AllScreens[0].Bounds.Width, Screen.AllScreens[0].Bounds.Height); ;
+			var bmp = new Bitmap(Screen.AllScreens[0].Bounds.Width, Screen.AllScreens[0].Bounds.Height);
 			//Image img = bmp;
 			bkgGraphics = Graphics.FromImage(bmp);
 			bkgGraphics.CopyFromScreen(new Point(0, 0), new Point(0, 0), Screen.AllScreens[0].Bounds.Size);
