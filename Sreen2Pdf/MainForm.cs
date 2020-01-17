@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -83,7 +84,43 @@ namespace Sreen2Pdf
             Wheel = 0x0800,
             Absolute = 0x8000//标示是否采用绝对坐标
         }
-    }
+
+		private void button2Pdf_Click(object sender, EventArgs e)
+		{
+			DirectoryInfo root = new DirectoryInfo("Img");
+			var files = root.GetFiles();
+			iTextSharp.text.Document document = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 25, 25, 25, 25);
+			iTextSharp.text.pdf.PdfWriter.GetInstance(document, new FileStream(@"1.pdf", FileMode.Create, FileAccess.ReadWrite));
+			document.Open();
+			iTextSharp.text.Image image;
+			for (int i = 0; i < files.Length; i++)
+			{
+				if (String.IsNullOrEmpty(files[i].FullName)) break;
+
+
+				image = iTextSharp.text.Image.GetInstance(files[i].FullName);
+
+
+				if (image.Height > iTextSharp.text.PageSize.A4.Height - 25)
+				{
+					image.ScaleToFit(iTextSharp.text.PageSize.A4.Width - 25, iTextSharp.text.PageSize.A4.Height - 25);
+				}
+				else if (image.Width > iTextSharp.text.PageSize.A4.Width - 25)
+				{
+					image.ScaleToFit(iTextSharp.text.PageSize.A4.Width - 25, iTextSharp.text.PageSize.A4.Height - 25);
+				}
+				image.Alignment = iTextSharp.text.Image.ALIGN_MIDDLE;
+				document.NewPage();
+				document.Add(image);
+				//iTextSharp.text.Chunk c1 = new iTextSharp.text.Chunk("Hello World");
+				//iTextSharp.text.Phrase p1 = new iTextSharp.text.Phrase();
+				//p1.Leading = 150;      //行间距
+				//document.Add(p1);
+			}
+
+			document.Close();
+		}
+	}
 
    
 }
