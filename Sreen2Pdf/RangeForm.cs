@@ -18,6 +18,7 @@ namespace Sreen2Pdf
 		private bool mousedown = false;
 		private Graphics bkgGraphics = null;
 		private Bitmap srcBmp = null;
+		private bool isSelected = false;
 		public RangeForm()
 		{
 			InitializeComponent();
@@ -29,10 +30,10 @@ namespace Sreen2Pdf
 			foreach(var s in Screen.AllScreens)
 			{
 				var rect = s.Bounds;
-				if(left < rect.Left) { left = rect.Left; }
-				if (top < rect.Top) { top = rect.Top; }
-				if (right > rect.Right) { right = rect.Right; }
-				if (bottom > rect.Bottom) { bottom = rect.Bottom; }
+				if (left > rect.Left) { left = rect.Left; }
+				if (top > rect.Top) { top = rect.Top; }
+				if (right < rect.Right) { right = rect.Right; }
+				if (bottom < rect.Bottom) { bottom = rect.Bottom; }
 			}
 
 			return new Rectangle(left, top, right - left, bottom - top);
@@ -41,9 +42,16 @@ namespace Sreen2Pdf
 		private void RangeForm_Load(object sender, EventArgs e)
 		{
 			this.DoubleBuffered = true;
+			this.StartPosition = FormStartPosition.Manual;
 
 			var screenCount = Screen.AllScreens.Count();
-			
+			var fullRect = GetAllScreenRect();
+			Screen childerScreen = Screen.AllScreens[1];
+			//Location = new Point(fullRect.X, fullRect.Y);
+			Location = childerScreen.WorkingArea.Location;
+
+			Width = fullRect.Width;
+			Height = fullRect.Height;
 
 			//var bmp = new Bitmap(Screen.AllScreens[0].Bounds.Width, Screen.AllScreens[0].Bounds.Height);
 			srcBmp = new Bitmap(Screen.AllScreens[0].Bounds.Width, Screen.AllScreens[0].Bounds.Height);
@@ -55,7 +63,7 @@ namespace Sreen2Pdf
 
 			var bmp = (Bitmap)srcBmp.Clone();
 			var g = Graphics.FromImage(bmp);
-			g.FillRectangle(new SolidBrush(Color.FromArgb(92, 0, 0, 0)), 0, 0, bmp.Width, bmp.Height);
+			g.FillRectangle(new SolidBrush(Color.FromArgb(72, 0, 0, 0)), 0, 0, bmp.Width, bmp.Height);
 			BackgroundImage = bmp;
 
 			//this.WindowState = FormWindowState.Maximized;
@@ -90,6 +98,10 @@ namespace Sreen2Pdf
 
 		private void RangeForm_MouseDown(object sender, MouseEventArgs e)
 		{
+			if (isSelected)
+			{
+				return;
+			}
 			//记录开始点
 			this.mousedown = true;
 			this.StartPoint = e.Location;
@@ -97,6 +109,11 @@ namespace Sreen2Pdf
 
 		private void RangeForm_MouseUp(object sender, MouseEventArgs e)
 		{
+			if (isSelected)
+			{
+				return;
+			}
+
 			//记录结束点。绘制到窗口上
 			if (mousedown)
 			{
@@ -107,6 +124,7 @@ namespace Sreen2Pdf
 				this.rect_play(ref rect);
 
 				//this.DrawRectangle(new Pen(Color.Black), rect);
+				isSelected = true;
 			}
 			mousedown = false;
 

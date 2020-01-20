@@ -38,6 +38,7 @@
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "RangeForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "RangeForm";
 			this.TopMost = true;
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
