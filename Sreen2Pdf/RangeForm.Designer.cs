@@ -35,9 +35,14 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "RangeForm";
 			this.Text = "RangeForm";
+			this.TopMost = true;
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.RangeForm_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.RangeForm_Paint);
 			this.DoubleClick += new System.EventHandler(this.RangeForm_DoubleClick);
 			this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RangeForm_MouseDoubleClick);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RangeForm_MouseDown);

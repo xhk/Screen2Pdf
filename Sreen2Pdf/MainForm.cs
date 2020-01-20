@@ -23,8 +23,14 @@ namespace Sreen2Pdf
 
 		private void buttonSelectRange_Click(object sender, EventArgs e)
 		{
-			var body = new RangeForm();
-			body.Show();
+			var rangeForm = new RangeForm();
+			
+			if(rangeForm.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			textBoxRange.Text = $"{rangeForm.StartPoint.X},{rangeForm.StartPoint.Y},{rangeForm.EndPoint.X},{rangeForm.EndPoint.Y}";
 		}
 
         private void buttonStart_Click(object sender, EventArgs e)
